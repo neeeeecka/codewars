@@ -1,6 +1,6 @@
 var calc = function (expression) {
    expression = expression.replace(/ /g, "");
-   expression = expression.replace("-", "-1*");
+   // expression = expression.replace("-", "-1*");
    var actions = { parent: null, self: [] };
 
    expression = expression + "N";
@@ -17,26 +17,19 @@ var calc = function (expression) {
          subBrackets = subBrackets.self[subBrackets.self.length - 1];
       }
 
-      if ("0123456789.-".includes(symbol)) {
+      if ("0123456789.".includes(symbol)) {
          numberStr += symbol;
       } else {
          //first add number after encountering other symbol
          if (numberStr.length > 0) {
-            if (subBrackets) {
-               subBrackets.self.push(+numberStr);
-            } else {
-               actions.push(+numberStr);
-            }
+            subBrackets.self.push(+numberStr);
+
             numberStr = "";
          }
          //next do symbol checks
 
          if ("*/+-".includes(symbol)) {
-            if (subBrackets) {
-               subBrackets.self.push(symbol);
-            } else {
-               actions.push([symbol]);
-            }
+            subBrackets.self.push(symbol);
          }
 
          if (symbol == ")") {
@@ -63,6 +56,7 @@ const evaluate = (obj) => {
 
       if (a.self) {
          a = evaluate(a);
+         // expression[i] = a;
       }
       if (!isNaN(a)) {
          let o = expression[i - 1];
@@ -70,8 +64,8 @@ const evaluate = (obj) => {
          sum = operations[o](sum, a);
       }
    }
-   console.log(sum);
+   console.log(sum, expression);
    return sum;
 };
 // calc("2 / (2 + ((3 + 1) * 3) + (1.5 * 5)) * (3-2) * 4.6 + 5 - 2");
-calc("1--1");
+calc("1+(2*3 + (5-4))");
