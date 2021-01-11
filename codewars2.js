@@ -1,5 +1,6 @@
 var calc = function (expression) {
    expression = expression.replace(/ /g, "");
+   expression = expression.replace("-", "-1*");
    var actions = { parent: null, self: [] };
 
    expression = expression + "N";
@@ -16,7 +17,7 @@ var calc = function (expression) {
          subBrackets = subBrackets.self[subBrackets.self.length - 1];
       }
 
-      if ("0123456789.".includes(symbol)) {
+      if ("0123456789.-".includes(symbol)) {
          numberStr += symbol;
       } else {
          //first add number after encountering other symbol
@@ -73,4 +74,4 @@ const evaluate = (obj) => {
    return sum;
 };
 // calc("2 / (2 + ((3 + 1) * 3) + (1.5 * 5)) * (3-2) * 4.6 + 5 - 2");
-calc("-2*(3*2 + (1+1))");
+calc("1--1");
